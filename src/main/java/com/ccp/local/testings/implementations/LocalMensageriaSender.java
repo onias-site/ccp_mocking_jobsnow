@@ -6,11 +6,9 @@ import com.ccp.especifications.mensageria.receiver.CcpMensageriaReceiver;
 import com.ccp.especifications.mensageria.receiver.CcpTopic;
 import com.ccp.especifications.mensageria.sender.CcpMensageriaSender;
 
-public class LocalMensageriaSender implements CcpMensageriaSender {
+class LocalMensageriaSender implements CcpMensageriaSender {
 
-	public LocalMensageriaSender() {
-
-	}
+	public LocalMensageriaSender() {}
 
 	public CcpMensageriaSender send(String topic, String... msgs) {
 

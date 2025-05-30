@@ -4,7 +4,7 @@ import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.decorators.CcpStringDecorator;
 import com.ccp.especifications.email.CcpEmailSender;
 
-public class LocalEmailSender implements CcpEmailSender {
+class LocalEmailSender implements CcpEmailSender {
 
 	public CcpJsonRepresentation send(CcpJsonRepresentation emailApiParameters) {
 		String templateId = emailApiParameters.getAsString("templateId");
