@@ -19,7 +19,7 @@ class LocalMensageriaSender implements CcpMensageriaSender {
 //				process.apply(messageDetails); 
 //			}).start();
 
-			CcpMensageriaReceiver receiver = new CcpMensageriaReceiver(topic, "operation");
+			CcpMensageriaReceiver receiver = CcpMensageriaReceiver.getInstance(json);
 			CcpTopic process = receiver.getProcess(topic, json);
 			process.apply(json);
 			
