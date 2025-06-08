@@ -25,9 +25,5 @@ public enum CcpLocalCacheInstances implements CcpInstanceProvider<CcpCache>{
 		}
 	}
 	;
-	public CcpInstanceProvider<CcpCache> getLocalImplementation() {
-		return this;
-	}
-	
 
 }	

@@ -25,7 +25,4 @@ public enum CcpLocalInstances implements CcpInstanceProvider<Object>{
 
 	abstract public Object getInstance();
 	
-	public CcpInstanceProvider<Object> getLocalImplementation() {
-		return this;
-	}
 }
