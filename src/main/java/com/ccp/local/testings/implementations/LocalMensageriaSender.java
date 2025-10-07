@@ -1,6 +1,8 @@
 package com.ccp.local.testings.implementations;
 
 
+import java.util.function.Function;
+
 import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.especifications.mensageria.receiver.CcpMensageriaReceiver;
 import com.ccp.especifications.mensageria.receiver.CcpTopic;
@@ -10,7 +12,7 @@ class LocalMensageriaSender implements CcpMensageriaSender {
 
 	public LocalMensageriaSender() {}
 
-	public CcpMensageriaSender send(String topic, String... msgs) {
+	public CcpMensageriaSender sendToMensageria(String topic, String... msgs) {
 
 		for (String msg : msgs) {
 			CcpJsonRepresentation json = new CcpJsonRepresentation(msg);
@@ -20,7 +22,7 @@ class LocalMensageriaSender implements CcpMensageriaSender {
 //			}).start();
 
 			CcpMensageriaReceiver receiver = CcpMensageriaReceiver.getInstance(json);
-			CcpTopic process = receiver.getProcess(topic, json);
+			Function<CcpJsonRepresentation, CcpJsonRepresentation> process = receiver.getProcess(topic, json);
 			process.apply(json);
 			
 		}
