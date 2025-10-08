@@ -5,7 +5,6 @@ import java.util.function.Function;
 
 import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.especifications.mensageria.receiver.CcpMensageriaReceiver;
-import com.ccp.especifications.mensageria.receiver.CcpTopic;
 import com.ccp.especifications.mensageria.sender.CcpMensageriaSender;
 
 class LocalMensageriaSender implements CcpMensageriaSender {
