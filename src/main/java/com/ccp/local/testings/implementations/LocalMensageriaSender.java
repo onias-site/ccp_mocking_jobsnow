@@ -23,8 +23,8 @@ class LocalMensageriaSender implements CcpMensageriaSender {
 			CcpMensageriaReceiver receiver = CcpMensageriaReceiver.getInstance(json);
 			Function<CcpJsonRepresentation, CcpJsonRepresentation> process = receiver.getProcess(topic, json);
 			process.apply(json);
-			
 		}
+
 		return this;
 	}
 
