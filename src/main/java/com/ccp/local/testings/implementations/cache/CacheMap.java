@@ -19,7 +19,7 @@ class CacheMap implements CcpCache {
 	@SuppressWarnings("unchecked")
 	public synchronized Object get(String key) {
 
-		boolean itIsMissingFields = localCache.getDynamicVersion().containsAllFields(key) == false;
+		boolean itIsMissingFields = false == localCache.getDynamicVersion().containsAllFields(key);
 	
 		if(itIsMissingFields) {
 			return null;
@@ -50,7 +50,7 @@ class CacheMap implements CcpCache {
 			
 			List<String> expiredKeys = expirations.getDynamicVersion().getAsStringList(time);
 			
-			boolean thisKeyIsNotExpired = expiredKeys.contains(key) == false;
+			boolean thisKeyIsNotExpired = false == expiredKeys.contains(key);
 			
 			if(thisKeyIsNotExpired) {
 				continue;
