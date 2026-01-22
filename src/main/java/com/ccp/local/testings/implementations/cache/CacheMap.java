@@ -4,12 +4,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.ccp.constantes.CcpOtherConstants;
 import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.decorators.CcpTimeDecorator;
 import com.ccp.especifications.cache.CcpCache;
+import com.ccp.especifications.cache.CcpCacheDecorator;
 
 class CacheMap implements CcpCache {
 	
@@ -20,7 +22,6 @@ class CacheMap implements CcpCache {
 	public synchronized Object get(String key) {
 
 		boolean itIsMissingFields = false == localCache.getDynamicVersion().containsAllFields(key);
-	
 		if(itIsMissingFields) {
 			return null;
 		}
