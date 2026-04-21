@@ -55,8 +55,8 @@ class CacheMap implements CcpCache {
 				continue;
 			}
 			
-			localCache = localCache.getDynamicVersion().removeField(key);
-			expirations = expirations.getDynamicVersion().removeField(time);
+			localCache = localCache.getDynamicVersion().removeFields(key);
+			expirations = expirations.getDynamicVersion().removeFields(time);
 			return true;
 		}
 		
@@ -81,13 +81,13 @@ class CacheMap implements CcpCache {
 		
 		V t = (V) this.get(key);
 		
-		localCache = localCache.getDynamicVersion().removeField(key);
+		localCache = localCache.getDynamicVersion().removeFields(key);
 		Optional<String> findFirst = expirations.fieldSet().stream()
 		.filter(x -> expirations.getDynamicVersion().getAsString(x).equals(key)).findFirst();
 		
 		if(findFirst.isPresent()) {
 			String expirationToRemove = findFirst.get();
-			expirations = expirations.getDynamicVersion().removeField(expirationToRemove);
+			expirations = expirations.getDynamicVersion().removeFields(expirationToRemove);
 		}
 		
 		return t;
