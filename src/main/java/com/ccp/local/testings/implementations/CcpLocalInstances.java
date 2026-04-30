@@ -5,8 +5,8 @@ import com.ccp.dependency.injection.CcpInstanceProvider;
 public enum CcpLocalInstances implements CcpInstanceProvider<Object>{
 	email {
 		public Object getInstance() {
-			LocalEmailSender localEmailSender = new LocalEmailSender();
-			return localEmailSender;
+			LocalEmailFile emailSender = new LocalEmailFile();
+			return emailSender;
 		}
 	},
 	bucket {
