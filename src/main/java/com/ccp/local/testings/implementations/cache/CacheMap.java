@@ -19,7 +19,7 @@ class CacheMap implements CcpCache {
 	@SuppressWarnings("unchecked")
 	public synchronized Object get(String key) {
 
-		boolean itIsMissingFields = false == localCache.getDynamicVersion().containsAllFields(key);
+		boolean itIsMissingFields = false == localCache.containsAllFields(() -> key);
 		if(itIsMissingFields) {
 			return null;
 		}
@@ -30,7 +30,7 @@ class CacheMap implements CcpCache {
 			return null;
 		}
 		
-		Object object = localCache.getDynamicVersion().get(key);
+		Object object = localCache.get(() -> key);
 
 		if(object instanceof Map map) {
 			CcpJsonRepresentation jr = new CcpJsonRepresentation(map);
@@ -47,7 +47,7 @@ class CacheMap implements CcpCache {
 
 		for (String time : collect) {
 			
-			List<String> expiredKeys = expirations.getDynamicVersion().getAsStringList(time);
+			List<String> expiredKeys = expirations.getAsStringList(() -> time);
 			
 			boolean thisKeyIsNotExpired = false == expiredKeys.contains(key);
 			
@@ -55,8 +55,8 @@ class CacheMap implements CcpCache {
 				continue;
 			}
 			
-			localCache = localCache.getDynamicVersion().removeFields(key);
-			expirations = expirations.getDynamicVersion().removeFields(time);
+			localCache = localCache.removeFields(() -> key);
+			expirations = expirations.removeFields(() -> time);
 			return true;
 		}
 		
@@ -69,9 +69,9 @@ class CacheMap implements CcpCache {
 		if(value instanceof CcpJsonRepresentation json) {
 			value = new LinkedHashMap<>(json.content);
 		}
-		localCache = localCache.getDynamicVersion().put(key, value);
+		localCache = localCache.put(() -> key, value);
 		long expiration = System.currentTimeMillis() + (secondsDelay * 1000);
-		expirations = expirations.getDynamicVersion().addToList("" + expiration, key);
+		expirations = expirations.addToList(() -> "" + expiration, key);
 		new CcpTimeDecorator().sleep(1);
 		return this;
 	}
@@ -81,13 +81,13 @@ class CacheMap implements CcpCache {
 		
 		V t = (V) this.get(key);
 		
-		localCache = localCache.getDynamicVersion().removeFields(key);
+		localCache = localCache.removeFields(() -> key);
 		Optional<String> findFirst = expirations.fieldSet().stream()
-		.filter(x -> expirations.getDynamicVersion().getAsString(x).equals(key)).findFirst();
-		
+		.filter(x -> expirations.getAsString(() -> x).equals(key)).findFirst();
+
 		if(findFirst.isPresent()) {
 			String expirationToRemove = findFirst.get();
-			expirations = expirations.getDynamicVersion().removeFields(expirationToRemove);
+			expirations = expirations.removeFields(() -> expirationToRemove);
 		}
 		
 		return t;
