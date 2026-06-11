@@ -13,7 +13,7 @@ class LocalEmailFile implements CcpEmailSender {
 	}
 
 	public CcpJsonRepresentation sendSimpleTextEmailMessage(String providerToken, String providerUrl, String templateId, String sender, String subject, String message, CcpHttpContentType contentType, String... emails){
-		new CcpStringDecorator("c:\\logs\\email\\" + templateId + ".json").file().reset().append(message);
+		new CcpStringDecorator("c:\\logs\\email\\" + templateId + ".html").file().reset().append(message);
 		return CcpOtherConstants.EMPTY_JSON;
 	}
 
