@@ -12,6 +12,10 @@ import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.decorators.CcpTimeDecorator;
 import com.ccp.especifications.cache.CcpCache;
 
+/**
+ * Implementação in-memory de {@code CcpCache} para testes locais. Mantém um mapa estático
+ * compartilhado com suporte a expiração por tempo ({@code secondsDelay}).
+ */
 class CacheMap implements CcpCache {
 	
 	private static CcpJsonRepresentation expirations = CcpOtherConstants.EMPTY_JSON;

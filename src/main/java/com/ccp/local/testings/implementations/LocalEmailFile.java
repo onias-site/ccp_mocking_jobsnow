@@ -7,6 +7,10 @@ import com.ccp.decorators.CcpJsonRepresentation.CcpJsonFieldName;
 import com.ccp.especifications.email.CcpEmailSender;
 import com.ccp.especifications.http.CcpHttpContentType;
 
+/**
+ * Mock de {@code CcpEmailSender} para testes locais. Em vez de enviar e-mail, persiste o
+ * conteúdo em {@code c:\logs\email\<templateId>.html}.
+ */
 class LocalEmailFile implements CcpEmailSender {
 	enum JsonFieldNames implements CcpJsonFieldName{
 		templateId

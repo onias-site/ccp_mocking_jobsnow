@@ -5,6 +5,10 @@ import com.ccp.decorators.CcpFolderDecorator;
 import com.ccp.decorators.CcpStringDecorator;
 import com.ccp.especifications.file.bucket.CcpFileBucket;
 
+/**
+ * Mock de {@code CcpFileBucket} para testes locais. Armazena e recupera arquivos em
+ * {@code c:/logs/<bucketName>/<fileName>} no sistema de arquivos local.
+ */
 class LocalBucket implements CcpFileBucket{
 
 	public String get(String tenant, String bucketName, String fileName) {
