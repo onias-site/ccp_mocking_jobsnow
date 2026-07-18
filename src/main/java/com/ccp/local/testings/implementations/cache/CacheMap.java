@@ -76,7 +76,7 @@ class CacheMap implements CcpCache {
 		}
 		localCache = localCache.put(new CcpFieldName(key), value);
 		long expiration = System.currentTimeMillis() + (secondsDelay * 1000);
-		expirations = expirations.addToList(new CcpFieldName("" + expiration), key);
+		expirations = expirations.addToList(new CcpFieldName(expiration), key);
 		new CcpTimeDecorator().sleep(1);
 		return this;
 	}
