@@ -1,5 +1,6 @@
 package com.ccp.local.testings.implementations.cache;
 
+import com.ccp.aop.CcpAllowNullReturn;
 import com.ccp.especifications.cache.CcpCache;
 
 /**
@@ -8,6 +9,7 @@ import com.ccp.especifications.cache.CcpCache;
  */
 class CacheMock implements CcpCache {
 
+	@CcpAllowNullReturn
 	public Object get(String key) {
 		return null;
 	}
@@ -16,6 +18,7 @@ class CacheMock implements CcpCache {
 		return this;
 	}
 
+	@CcpAllowNullReturn
 	public <V> V delete(String key) {
 		return null;
 	}

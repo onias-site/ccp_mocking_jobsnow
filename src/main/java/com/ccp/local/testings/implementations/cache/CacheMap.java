@@ -3,6 +3,7 @@ package com.ccp.local.testings.implementations.cache;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.ccp.aop.CcpAllowNullReturn;
 import com.ccp.constants.CcpOtherConstants;
 import com.ccp.decorators.CcpFieldName;
 import com.ccp.decorators.CcpJsonRepresentation;
@@ -18,6 +19,7 @@ class CacheMap implements CcpCache {
 	private static CcpJsonRepresentation localCache = CcpOtherConstants.EMPTY_JSON;
 
 	@SuppressWarnings("unchecked")
+	@CcpAllowNullReturn
 	public synchronized Object get(String key) {
 
 		boolean itIsMissingFields = false == localCache.containsAllFields(new CcpFieldName(key));
@@ -46,6 +48,7 @@ class CacheMap implements CcpCache {
 		return this;
 	}
 
+	@CcpAllowNullReturn
 	@SuppressWarnings("unchecked")
 	public <V> V delete(String key) {
 		
