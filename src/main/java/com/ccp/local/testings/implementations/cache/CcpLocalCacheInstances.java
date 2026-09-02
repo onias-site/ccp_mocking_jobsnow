@@ -12,20 +12,23 @@ public enum CcpLocalCacheInstances implements CcpInstanceProvider<CcpCache>{
 	map{
 
 		public CcpCache getInstance() {
-			return new CacheMap();
+			CacheMap cacheMap = new CacheMap();
+			return cacheMap;
 		}
 	},
 	
 	endpoint{
 
 		public CcpCache getInstance() {
-			return new CacheEndpoint();
+			CacheEndpoint cacheEndpoint = new CacheEndpoint();
+			return cacheEndpoint;
 		}
 	},
 	mock {
 
 		public CcpCache getInstance() {
-			return new CacheMock();
+			CacheMock cacheMock = new CacheMock();
+			return cacheMock;
 		}
 	}
 	;

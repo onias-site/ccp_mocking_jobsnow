@@ -21,13 +21,16 @@ class CacheMap implements CcpCache {
 	@SuppressWarnings("unchecked")
 	@CcpAllowNullReturn
 	public synchronized Object get(String key) {
+		CcpFieldName ccpFieldName = new CcpFieldName(key);
+		boolean containsAllFields = localCache.containsAllFields(ccpFieldName);
 
-		boolean itIsMissingFields = false == localCache.containsAllFields(new CcpFieldName(key));
+		boolean itIsMissingFields = false == containsAllFields;
 		if(itIsMissingFields) {
 			return null;
 		}
+		CcpFieldName ccpFieldName2 = new CcpFieldName(key);
 
-		Object object = localCache.get(new CcpFieldName(key));
+		Object object = localCache.get(ccpFieldName2);
 
 		if(object instanceof Map map) {
 			CcpJsonRepresentation jr = new CcpJsonRepresentation(map);
@@ -43,16 +46,19 @@ class CacheMap implements CcpCache {
 		if(value instanceof CcpJsonRepresentation json) {
 			value = new LinkedHashMap<>(json.content);
 		}
-		localCache = localCache.put(new CcpFieldName(key), value);
-		new CcpTimeDecorator().sleep(1);
+		CcpFieldName ccpFieldName3 = new CcpFieldName(key);
+		localCache = localCache.put(ccpFieldName3, value);
+		CcpTimeDecorator ccpTimeDecorator = new CcpTimeDecorator();
+		ccpTimeDecorator.sleep(1);
 		return this;
 	}
 
 	@CcpAllowNullReturn
 	@SuppressWarnings("unchecked")
 	public <V> V delete(String key) {
-		
-		V t = (V) this.get(key);
+		var get = this.get(key);
+	
+		V t = (V) get;
 		
 		CcpFieldName field = new CcpFieldName(key);
 		localCache = localCache.removeFields(field);

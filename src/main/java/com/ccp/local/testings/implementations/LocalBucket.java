@@ -31,7 +31,9 @@ class LocalBucket implements CcpFileBucket{
 	}
 
 	private CcpFileDecorator getFile(String bucketName, String fileName) {
-		String content = "c:/logs/" + bucketName + "/" + fileName;
+		String valorMais = "c:/logs/" + bucketName;
+		String valorMaisMais = valorMais + "/";
+		String content = valorMaisMais + fileName;
 		CcpStringDecorator ccpStringDecorator = new CcpStringDecorator(content);
 		CcpFileDecorator file = ccpStringDecorator.file();
 		return file;
