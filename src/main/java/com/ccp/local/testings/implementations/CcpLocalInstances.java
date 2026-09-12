@@ -20,13 +20,19 @@ public enum CcpLocalInstances implements CcpInstanceProvider<Object>{
 			return localBucket;
 		}
 	}, 
-	
-	mensageriaSender {
+	syncMensageriaListener {
 		public Object getInstance() {
-			LocalMensageriaSender localMensageriaSender = new LocalMensageriaSender();
+			SyncMensageriaListener localMensageriaSender = new SyncMensageriaListener();
 			return localMensageriaSender;
 		}
-	};
+	},
+	asyncMensageriaListener {
+		public Object getInstance() {
+			AsyncMensageriaListener localMensageriaSender = new AsyncMensageriaListener();
+			return localMensageriaSender;
+		}
+	},
+	;
 
 	abstract public Object getInstance();
 	
