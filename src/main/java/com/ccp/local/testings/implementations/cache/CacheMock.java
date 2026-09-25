@@ -18,9 +18,7 @@ class CacheMock implements CcpCache {
 		return this;
 	}
 
-	@CcpAllowNullReturn
-	public <V> V delete(String key) {
-		return null;
+	public void delete(String key) {
 	}
 
 }

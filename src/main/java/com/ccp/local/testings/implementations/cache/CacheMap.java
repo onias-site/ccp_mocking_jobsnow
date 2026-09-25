@@ -53,17 +53,9 @@ class CacheMap implements CcpCache {
 		return this;
 	}
 
-	@CcpAllowNullReturn
-	@SuppressWarnings("unchecked")
-	public <V> V delete(String key) {
-		var get = this.get(key);
-	
-		V t = (V) get;
-		
+	public synchronized void delete(String key) {
 		CcpFieldName field = new CcpFieldName(key);
 		localCache = localCache.removeFields(field);
-
-		return t;
 	}
 
 }
