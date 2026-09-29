@@ -4,8 +4,8 @@ import com.ccp.dependency.injection.CcpInstanceProvider;
 import com.ccp.especifications.cache.CcpCache;
 
 /**
- * Enum de provedores de DI de cache para testes locais. Oferece três variantes: {@code map}
- * (in-memory com expiração), {@code endpoint} (stub de endpoint externo) e {@code mock} (noop).
+ * Enum of cache DI providers for local tests. Offers three variants: {@code map}
+ * (in-memory with expiration), {@code endpoint} (external endpoint stub) and {@code mock} (no-op).
  */
 public enum CcpLocalCacheInstances implements CcpInstanceProvider<CcpCache>{
 

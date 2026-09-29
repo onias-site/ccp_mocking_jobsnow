@@ -6,15 +6,15 @@ import com.ccp.decorators.CcpStringDecorator;
 import com.ccp.especifications.file.bucket.CcpFileBucket;
 
 /**
- * Mock de {@code CcpFileBucket} para testes locais. Armazena e recupera arquivos em
- * {@code c:/logs/<bucketName>/<fileName>} no sistema de arquivos local.
+ * {@code CcpFileBucket} mock for local tests. Stores and retrieves files at
+ * {@code c:/logs/<bucketName>/<fileName>} on the local file system.
  */
 class LocalBucket implements CcpFileBucket{
 
 	public String get(String tenant, String bucketName, String fileName) {
 		CcpFileDecorator file = this.getFile(bucketName, fileName);
-		String extractStringContent = file.getStringContent();
-		return extractStringContent;
+		String fileContent = file.getStringContent();
+		return fileContent;
 	}
 
 	public String delete(String tenant, String bucketName, String fileName) {
@@ -24,25 +24,25 @@ class LocalBucket implements CcpFileBucket{
 	}
 
 	public String save(String tenant, String bucketName, String fileName, String fileContent) {
-		CcpFileDecorator file2 = this.getFile(bucketName, fileName);
-		CcpFileDecorator file = file2.reset();
+		CcpFileDecorator existingFile = this.getFile(bucketName, fileName);
+		CcpFileDecorator file = existingFile.reset();
 		file.append(fileContent);
 		return fileContent;
 	}
 
 	private CcpFileDecorator getFile(String bucketName, String fileName) {
-		String valorMais = "c:/logs/" + bucketName;
-		String valorMaisMais = valorMais + "/";
-		String content = valorMaisMais + fileName;
-		CcpStringDecorator ccpStringDecorator = new CcpStringDecorator(content);
-		CcpFileDecorator file = ccpStringDecorator.file();
+		String bucketFolder = "c:/logs/" + bucketName;
+		String bucketFolderWithSlash = bucketFolder + "/";
+		String content = bucketFolderWithSlash + fileName;
+		CcpStringDecorator pathDecorator = new CcpStringDecorator(content);
+		CcpFileDecorator file = pathDecorator.file();
 		return file;
 	}
 
 	public String delete(String tenant, String bucketName) {
 		String content = "c:/logs/" + bucketName;
-		CcpStringDecorator ccpStringDecorator = new CcpStringDecorator(content);
-		CcpFolderDecorator folder = ccpStringDecorator.folder();
+		CcpStringDecorator pathDecorator = new CcpStringDecorator(content);
+		CcpFolderDecorator folder = pathDecorator.folder();
 		folder.remove();
 		return "";
 	}

@@ -3,8 +3,8 @@ package com.ccp.local.testings.implementations;
 import com.ccp.dependency.injection.CcpInstanceProvider;
 
 /**
- * Enum de provedores de DI locais para testes. Cada constante instancia a implementação
- * mock correspondente: {@code email} → {@code LocalEmailFile}, {@code bucket} → {@code LocalBucket},
+ * Enum of local DI providers for tests. Each constant instantiates the matching mock
+ * implementation: {@code email} → {@code LocalEmailFile}, {@code bucket} → {@code LocalBucket},
  * {@code mensageriaSender} → {@code LocalMensageriaSender}.
  */
 public enum CcpLocalInstances implements CcpInstanceProvider<Object>{
@@ -12,6 +12,12 @@ public enum CcpLocalInstances implements CcpInstanceProvider<Object>{
 		public Object getInstance() {
 			LocalEmailFile emailSender = new LocalEmailFile();
 			return emailSender;
+		}
+	},
+	instantMessenger {
+		public Object getInstance() {
+			LocalInstantMessengerFile instantMessenger = new LocalInstantMessengerFile();
+			return instantMessenger;
 		}
 	},
 	bucket {

@@ -7,8 +7,8 @@ import com.ccp.especifications.mensageria.receiver.CcpMensageriaReceiver;
 import com.ccp.especifications.mensageria.sender.CcpMensageriaSender;
 
 /**
- * Mock de {@code CcpMensageriaSender} para testes locais. Em vez de enviar mensagens para o
- * Pub/Sub, executa o processo do tópico diretamente de forma síncrona via {@code CcpMensageriaReceiver}.
+ * {@code CcpMensageriaSender} mock for local tests. Instead of sending messages to
+ * Pub/Sub, it runs the topic's process directly, each one in its own thread, via {@code CcpMensageriaReceiver}.
  */
 class AsyncMensageriaListener implements CcpMensageriaSender {
 

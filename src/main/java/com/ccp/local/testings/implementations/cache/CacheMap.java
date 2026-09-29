@@ -11,8 +11,8 @@ import com.ccp.decorators.CcpTimeDecorator;
 import com.ccp.especifications.cache.CcpCache;
 
 /**
- * Implementação in-memory de {@code CcpCache} para testes locais. Mantém um mapa estático
- * compartilhado com suporte a expiração por tempo ({@code secondsDelay}).
+ * In-memory {@code CcpCache} implementation for local tests. Keeps a shared static map
+ * with support for time-based expiration ({@code secondsDelay}).
  */
 class CacheMap implements CcpCache {
 	
@@ -21,20 +21,20 @@ class CacheMap implements CcpCache {
 	@SuppressWarnings("unchecked")
 	@CcpAllowNullReturn
 	public synchronized Object get(String key) {
-		CcpFieldName ccpFieldName = new CcpFieldName(key);
-		boolean containsAllFields = localCache.containsAllFields(ccpFieldName);
+		CcpFieldName keyField = new CcpFieldName(key);
+		boolean containsAllFields = localCache.containsAllFields(keyField);
 
 		boolean itIsMissingFields = false == containsAllFields;
 		if(itIsMissingFields) {
 			return null;
 		}
-		CcpFieldName ccpFieldName2 = new CcpFieldName(key);
+		CcpFieldName keyToRead = new CcpFieldName(key);
 
-		Object object = localCache.get(ccpFieldName2);
+		Object object = localCache.get(keyToRead);
 
 		if(object instanceof Map map) {
-			CcpJsonRepresentation jr = new CcpJsonRepresentation(map);
-			return jr;
+			CcpJsonRepresentation cachedJson = new CcpJsonRepresentation(map);
+			return cachedJson;
 		}
 		return object;
 	}
@@ -46,8 +46,8 @@ class CacheMap implements CcpCache {
 		if(value instanceof CcpJsonRepresentation json) {
 			value = new LinkedHashMap<>(json.content);
 		}
-		CcpFieldName ccpFieldName3 = new CcpFieldName(key);
-		localCache = localCache.put(ccpFieldName3, value);
+		CcpFieldName keyField = new CcpFieldName(key);
+		localCache = localCache.put(keyField, value);
 		CcpTimeDecorator ccpTimeDecorator = new CcpTimeDecorator();
 		ccpTimeDecorator.sleep(1);
 		return this;

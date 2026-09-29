@@ -9,8 +9,8 @@ import com.ccp.especifications.http.CcpHttpContentType;
 import com.ccp.decorators.CcpFileDecorator;
 
 /**
- * Mock de {@code CcpEmailSender} para testes locais. Em vez de enviar e-mail, persiste o
- * conteúdo em {@code c:\logs\email\<templateId>.html}.
+ * {@code CcpEmailSender} mock for local tests. Instead of sending the e-mail, it writes the
+ * content to {@code c:\logs\email\<templateId>.html}.
  */
 class LocalEmailFile implements CcpEmailSender {
 	enum JsonFieldNames implements CcpJsonFieldName{
@@ -18,12 +18,12 @@ class LocalEmailFile implements CcpEmailSender {
 	}
 
 	public CcpJsonRepresentation sendSimpleTextEmailMessage(String providerToken, String providerUrl, String templateId, String sender, String subject, String message, CcpHttpContentType contentType, String... emails){
-		String valorMais = "c:\\logs\\email\\" + templateId;
-		String valorMaisMais = valorMais + ".html";
-		CcpStringDecorator ccpStringDecorator = new CcpStringDecorator(valorMaisMais);
-		CcpFileDecorator ccpStringDecoratorFile = ccpStringDecorator.file();
-		var reset = ccpStringDecoratorFile.reset();
-		reset.append(message);
+		String emailFilePathWithoutExtension = "c:\\logs\\email\\" + templateId;
+		String emailFilePath = emailFilePathWithoutExtension + ".html";
+		CcpStringDecorator emailFilePathDecorator = new CcpStringDecorator(emailFilePath);
+		CcpFileDecorator emailFileDecorator = emailFilePathDecorator.file();
+		var emailFile = emailFileDecorator.reset();
+		emailFile.append(message);
 		return CcpOtherConstants.EMPTY_JSON;
 	}
 

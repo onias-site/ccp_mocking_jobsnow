@@ -4,8 +4,8 @@ import com.ccp.aop.CcpAllowNullReturn;
 import com.ccp.especifications.cache.CcpCache;
 
 /**
- * Implementação nula de {@code CcpCache} para testes onde o cache deve ser ignorado.
- * Todos os métodos retornam {@code null} ou {@code this} sem efeito colateral.
+ * Null {@code CcpCache} implementation for tests where the cache must be ignored.
+ * Every method returns {@code null} or {@code this} with no side effects.
  */
 class CacheMock implements CcpCache {
 
