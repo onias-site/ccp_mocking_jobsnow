@@ -13,10 +13,24 @@ import com.ccp.decorators.CcpFileDecorator;
  * content to {@code c:\logs\email\<templateId>.html}.
  */
 class LocalEmailFile implements CcpEmailSender {
+	/** Unused. */
 	enum JsonFieldNames implements CcpJsonFieldName{
+		/** Unused. */
 		templateId
 	}
 
+	/**
+	 * Writes the message to {@code c:\logs\email\<templateId>.html}, replacing the previous one.
+	 * @param providerToken ignored
+	 * @param providerUrl ignored
+	 * @param templateId the file name
+	 * @param sender ignored
+	 * @param subject ignored
+	 * @param message the content written
+	 * @param contentType ignored
+	 * @param emails ignored
+	 * @return an empty JSON
+	 */
 	public CcpJsonRepresentation sendSimpleTextEmailMessage(String providerToken, String providerUrl, String templateId, String sender, String subject, String message, CcpHttpContentType contentType, String... emails){
 		String emailFilePathWithoutExtension = "c:\\logs\\email\\" + templateId;
 		String emailFilePath = emailFilePathWithoutExtension + ".html";

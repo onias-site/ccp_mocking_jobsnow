@@ -11,13 +11,19 @@ import com.ccp.decorators.CcpTimeDecorator;
 import com.ccp.especifications.cache.CcpCache;
 
 /**
- * In-memory {@code CcpCache} implementation for local tests. Keeps a shared static map
- * with support for time-based expiration ({@code secondsDelay}).
+ * In-memory {@code CcpCache} for local tests, backed by a static JSON shared by every instance. The expiration is ignored:
+ * entries live until deleted.
  */
 class CacheMap implements CcpCache {
 	
+	/** The cached entries, by key. */
 	private static CcpJsonRepresentation localCache = CcpOtherConstants.EMPTY_JSON;
 
+	/**
+	 * Returns the cached value, rebuilding a cached map as {@code CcpJsonRepresentation}.
+	 * @param key the cache key
+	 * @return the value, or {@code null} on a miss
+	 */
 	@SuppressWarnings("unchecked")
 	@CcpAllowNullReturn
 	public synchronized Object get(String key) {
@@ -41,6 +47,14 @@ class CacheMap implements CcpCache {
 
 
 
+	/**
+	 * Stores the value (a JSON as a copy of its map), ignoring the expiration, and sleeps one millisecond. Unlike
+	 * {@code get} and {@code delete}, it is not synchronized.
+	 * @param key the cache key
+	 * @param value the value
+	 * @param secondsDelay ignored
+	 * @return this cache
+	 */
 	public CcpCache put(String key, Object value, int secondsDelay) {
 
 		if(value instanceof CcpJsonRepresentation json) {
@@ -53,6 +67,10 @@ class CacheMap implements CcpCache {
 		return this;
 	}
 
+	/**
+	 * Removes the key.
+	 * @param key the cache key
+	 */
 	public synchronized void delete(String key) {
 		CcpFieldName field = new CcpFieldName(key);
 		localCache = localCache.removeFields(field);
