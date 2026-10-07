@@ -11,6 +11,7 @@ import com.ccp.decorators.CcpJsonFieldName;
 import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.decorators.CcpStringDecorator;
 import com.ccp.decorators.CcpTimeDecorator;
+import com.ccp.especifications.db.utils.entity.decorators.enums.CcpEntityExpurgableOptions;
 import com.ccp.especifications.instant.messenger.CcpInstantMessenger;
 
 /**
@@ -92,7 +93,7 @@ class LocalInstantMessengerFile implements CcpInstantMessenger {
 	private void append(CcpJsonFieldName botType, Long chatId, String message) {
 		new File(FOLDER).mkdirs();
 		String path = FOLDER + "\\" + botType.getValue() + "-" + chatId + ".txt";
-		String when = new CcpTimeDecorator().getFormattedDateTime("dd/MM/yyyy HH:mm:ss.SSS");
+		String when = new CcpTimeDecorator().getFormattedDateTime(CcpEntityExpurgableOptions.millisecond.format);
 		CcpFileDecorator file = new CcpStringDecorator(path).file();
 		file.append("==== " + when + "\n" + message); 
 	}
