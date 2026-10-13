@@ -20,7 +20,11 @@ class LocalEmailFile implements CcpEmailSender {
 	}
 
 	/**
-	 * Writes the message to {@code c:\logs\email\<templateId>.html}, replacing the previous one.
+	 * Writes the message to {@code c:\logs\email\<templateId>.html}, replacing the previous one, and also to
+	 * {@code c:\logs\email\<recipient>\<templateId>.html} for each recipient. The shared file is overwritten by every
+	 * sending; the file of the recipient lets parallel automations read each one its own message (the login token, for
+	 * instance) without picking up another's. Synchronized: two sendings at once raced between the reset and the write of
+	 * the same file.
 	 * @param providerToken ignored
 	 * @param providerUrl ignored
 	 * @param templateId the file name
@@ -28,17 +32,28 @@ class LocalEmailFile implements CcpEmailSender {
 	 * @param subject ignored
 	 * @param message the content written
 	 * @param contentType ignored
-	 * @param emails ignored
+	 * @param emails the recipients, each one with its own copy
 	 * @return an empty JSON
 	 */
-	public CcpJsonRepresentation sendSimpleTextEmailMessage(String providerToken, String providerUrl, String templateId, String sender, String subject, String message, CcpHttpContentType contentType, String... emails){
-		String emailFilePathWithoutExtension = "c:\\logs\\email\\" + templateId;
-		String emailFilePath = emailFilePathWithoutExtension + ".html";
+	public synchronized CcpJsonRepresentation sendSimpleTextEmailMessage(String providerToken, String providerUrl, String templateId, String sender, String subject, String message, CcpHttpContentType contentType, String... emails){
+		String emailFileName = templateId + ".html";
+		this.write("c:\\logs\\email\\" + emailFileName, message);
+		for (String email : emails) {
+			this.write("c:\\logs\\email\\" + email + "\\" + emailFileName, message);
+		}
+		return CcpOtherConstants.EMPTY_JSON;
+	}
+
+	/**
+	 * Replaces the content of the file with the message.
+	 * @param emailFilePath the file
+	 * @param message the content written
+	 */
+	private void write(String emailFilePath, String message) {
 		CcpStringDecorator emailFilePathDecorator = new CcpStringDecorator(emailFilePath);
 		CcpFileDecorator emailFileDecorator = emailFilePathDecorator.file();
 		var emailFile = emailFileDecorator.reset();
 		emailFile.append(message);
-		return CcpOtherConstants.EMPTY_JSON;
 	}
 
 }

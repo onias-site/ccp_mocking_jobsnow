@@ -23,7 +23,8 @@ final class CacheDeletionMarks {
 	 * Leaves the mark of the deletion of the key, with the current time.
 	 * @param key the cache key
 	 */
-	static void markDeletion(String key) {
+	// synchronized: concurrent writers of the same mark raced between the delete and the write of the file (NoSuchFileException)
+	static synchronized void markDeletion(String key) {
 		CcpFileDecorator deletionMark = getDeletionMark(key);
 		long now = System.currentTimeMillis();
 		String deletionTime = String.valueOf(now);
@@ -36,7 +37,7 @@ final class CacheDeletionMarks {
 	 * @param storedTime when the entry was stored
 	 * @return {@code true} when the entry stored at that time is no longer valid
 	 */
-	static boolean wasDeletedAfter(String key, long storedTime) {
+	static synchronized boolean wasDeletedAfter(String key, long storedTime) {
 		CcpFileDecorator deletionMark = getDeletionMark(key);
 		boolean noDeletion = false == deletionMark.exists();
 		if(noDeletion) {
