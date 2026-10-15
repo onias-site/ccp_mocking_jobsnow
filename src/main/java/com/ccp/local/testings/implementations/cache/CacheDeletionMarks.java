@@ -23,12 +23,16 @@ final class CacheDeletionMarks {
 	 * Leaves the mark of the deletion of the key, with the current time.
 	 * @param key the cache key
 	 */
-	// synchronized: concurrent writers of the same mark raced between the delete and the write of the file (NoSuchFileException)
-	static synchronized void markDeletion(String key) {
-		CcpFileDecorator deletionMark = getDeletionMark(key);
-		long now = System.currentTimeMillis();
-		String deletionTime = String.valueOf(now);
-		deletionMark.write(deletionTime);
+	// locked by key: concurrent writers of the same mark raced between the delete and the write of the file
+	// (NoSuchFileException); until 2026-10-14 the lock was the class, shared by every key
+	static void markDeletion(String key) {
+		String keyHash = getKeyHash(key);
+		synchronized (keyHash.intern()) {
+			CcpFileDecorator deletionMark = getDeletionMark(keyHash);
+			long now = System.currentTimeMillis();
+			String deletionTime = String.valueOf(now);
+			deletionMark.write(deletionTime);
+		}
 	}
 
 	/**
@@ -37,28 +41,40 @@ final class CacheDeletionMarks {
 	 * @param storedTime when the entry was stored
 	 * @return {@code true} when the entry stored at that time is no longer valid
 	 */
-	static synchronized boolean wasDeletedAfter(String key, long storedTime) {
-		CcpFileDecorator deletionMark = getDeletionMark(key);
-		boolean noDeletion = false == deletionMark.exists();
-		if(noDeletion) {
-			return false;
+	static boolean wasDeletedAfter(String key, long storedTime) {
+		String keyHash = getKeyHash(key);
+		synchronized (keyHash.intern()) {
+			CcpFileDecorator deletionMark = getDeletionMark(keyHash);
+			boolean noDeletion = false == deletionMark.exists();
+			if(noDeletion) {
+				return false;
+			}
+			String deletionTimeText = deletionMark.getStringContent();
+			String trimmedDeletionTime = deletionTimeText.trim();
+			long deletionTime = Long.parseLong(trimmedDeletionTime);
+			boolean deletedAfter = deletionTime >= storedTime;
+			return deletedAfter;
 		}
-		String deletionTimeText = deletionMark.getStringContent();
-		String trimmedDeletionTime = deletionTimeText.trim();
-		long deletionTime = Long.parseLong(trimmedDeletionTime);
-		boolean deletedAfter = deletionTime >= storedTime;
-		return deletedAfter;
+	}
+
+	/**
+	 * The hash of the key, which names its mark and locks it.
+	 * @param key the cache key
+	 * @return the hash
+	 */
+	private static String getKeyHash(String key) {
+		CcpStringDecorator keyDecorator = new CcpStringDecorator(key);
+		CcpHashDecorator keyHashDecorator = keyDecorator.hash();
+		String keyHash = keyHashDecorator.asString(CcpHashAlgorithm.SHA1);
+		return keyHash;
 	}
 
 	/**
 	 * The file of the deletion mark of the key.
-	 * @param key the cache key
+	 * @param keyHash the hash of the cache key
 	 * @return the file
 	 */
-	private static CcpFileDecorator getDeletionMark(String key) {
-		CcpStringDecorator keyDecorator = new CcpStringDecorator(key);
-		CcpHashDecorator keyHashDecorator = keyDecorator.hash();
-		String keyHash = keyHashDecorator.asString(CcpHashAlgorithm.SHA1);
+	private static CcpFileDecorator getDeletionMark(String keyHash) {
 		String deletionMarkPath = DELETIONS_FOLDER + keyHash;
 		CcpStringDecorator deletionMarkPathDecorator = new CcpStringDecorator(deletionMarkPath);
 		CcpFileDecorator deletionMark = deletionMarkPathDecorator.file();
