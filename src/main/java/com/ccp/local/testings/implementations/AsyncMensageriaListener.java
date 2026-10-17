@@ -2,7 +2,6 @@ package com.ccp.local.testings.implementations;
 
 
 import com.ccp.decorators.CcpJsonRepresentation;
-import com.ccp.business.CcpBusiness;
 import com.ccp.especifications.mensageria.receiver.CcpMensageriaReceiver;
 import com.ccp.especifications.mensageria.sender.CcpMensageriaSender;
 
@@ -16,8 +15,9 @@ class AsyncMensageriaListener implements CcpMensageriaSender {
 	public AsyncMensageriaListener() {}
 
 	/**
-	 * Runs, for each message, the process of the topic in a new thread, through the receiver named in the message.
-	 * Failures happen in the threads and are not reported to the caller.
+	 * Runs, for each message, the process of the topic in a new thread, through the receiver named in the message, which
+	 * records the outcome (success or failure) as a real consumer does. Failures are not reported to the caller; until
+	 * 2026-10-15 they were not recorded either, and showed up only in the standard error of the process.
 	 * @param topic the topic (the class name of the process)
 	 * @param msgs the serialized messages
 	 * @return this sender
@@ -28,8 +28,7 @@ class AsyncMensageriaListener implements CcpMensageriaSender {
 			CcpJsonRepresentation json = new CcpJsonRepresentation(msg);
 			new Thread(() -> {
 				CcpMensageriaReceiver receiver = CcpMensageriaReceiver.getInstance(json);
-				CcpBusiness process = receiver.getProcess(topic, json);
-				process.execute(json);
+				receiver.executeProcessAndRecordOutcome(topic, json);
 			}).start();
 
 		}
