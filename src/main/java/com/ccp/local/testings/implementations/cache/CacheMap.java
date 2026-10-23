@@ -20,6 +20,10 @@ import com.ccp.especifications.cache.CcpCache;
  * grew with the square of the cache, and a save of a resume with 8 groups took 12 s while other saves ran.
  */
 class CacheMap implements CcpCache {
+	/** The single instance: the class keeps no state. */
+	public final static CacheMap INSTANCE = new CacheMap();
+
+	private CacheMap() {}
 
 	/** The cached entries, by key. */
 	private static final Map<String, Object> localCache = new ConcurrentHashMap<>();

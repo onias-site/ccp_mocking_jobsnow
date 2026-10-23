@@ -21,6 +21,10 @@ import com.ccp.especifications.instant.messenger.CcpInstantMessenger;
  * support chat. A sent file is also written, with its content, to {@code c:\logs\telegram\files}.
  */
 class LocalInstantMessengerFile implements CcpInstantMessenger {
+	/** The single instance: the class keeps no state. */
+	public final static LocalInstantMessengerFile INSTANCE = new LocalInstantMessengerFile();
+
+	private LocalInstantMessengerFile() {}
 
 	/** Folder of the message files. */
 	private static final String FOLDER = "c:\\logs\\telegram";

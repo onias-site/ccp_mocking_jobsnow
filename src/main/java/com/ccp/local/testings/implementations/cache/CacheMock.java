@@ -8,6 +8,10 @@ import com.ccp.especifications.cache.CcpCache;
  * It stores nothing; a deletion only leaves the mark that drops the key in the other local processes ({@link CacheDeletionMarks}).
  */
 class CacheMock implements CcpCache {
+	/** The single instance: the class keeps no state. */
+	public final static CacheMock INSTANCE = new CacheMock();
+
+	private CacheMock() {}
 
 	/**
 	 * Always a miss.

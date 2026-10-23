@@ -10,6 +10,10 @@ import com.ccp.especifications.file.bucket.CcpFileBucket;
  * {@code c:/logs/<bucketName>/<fileName>} on the local file system.
  */
 class LocalBucket implements CcpFileBucket{
+	/** The single instance: the class keeps no state. */
+	public final static LocalBucket INSTANCE = new LocalBucket();
+
+	private LocalBucket() {}
 
 	/**
 	 * Reads {@code c:/logs/<bucket>/<file>}.

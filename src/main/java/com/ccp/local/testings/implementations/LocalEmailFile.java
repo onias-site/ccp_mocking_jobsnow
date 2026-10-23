@@ -13,6 +13,11 @@ import com.ccp.decorators.CcpFileDecorator;
  * content to {@code c:\logs\email\<templateId>.html}.
  */
 class LocalEmailFile implements CcpEmailSender {
+	/** The single instance: the class keeps no state. */
+	public final static LocalEmailFile INSTANCE = new LocalEmailFile();
+
+	private LocalEmailFile() {}
+
 	/** Unused. */
 	enum JsonFieldNames implements CcpJsonFieldName{
 		/** Unused. */

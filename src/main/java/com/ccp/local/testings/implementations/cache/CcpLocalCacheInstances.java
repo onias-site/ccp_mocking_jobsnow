@@ -14,7 +14,7 @@ public enum CcpLocalCacheInstances implements CcpInstanceProvider<CcpCache>{
 		 * @return a new {@code CacheMap}
 		 */
 		public CcpCache getInstance() {
-			CacheMap cacheMap = new CacheMap();
+			CacheMap cacheMap = CacheMap.INSTANCE;
 			return cacheMap;
 		}
 	},
@@ -27,7 +27,7 @@ public enum CcpLocalCacheInstances implements CcpInstanceProvider<CcpCache>{
 		 * @return a new {@code CacheMock}
 		 */
 		public CcpCache getInstance() {
-			CacheMock cacheMock = new CacheMock();
+			CacheMock cacheMock = CacheMock.INSTANCE;
 			return cacheMock;
 		}
 	}

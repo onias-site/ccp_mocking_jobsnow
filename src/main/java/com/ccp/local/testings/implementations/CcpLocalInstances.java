@@ -11,7 +11,7 @@ public enum CcpLocalInstances implements CcpInstanceProvider<Object>{
 		 * @return a new {@code LocalEmailFile}
 		 */
 		public Object getInstance() {
-			LocalEmailFile emailSender = new LocalEmailFile();
+			LocalEmailFile emailSender = LocalEmailFile.INSTANCE;
 			return emailSender;
 		}
 	},
@@ -22,7 +22,7 @@ public enum CcpLocalInstances implements CcpInstanceProvider<Object>{
 		 * @return a new {@code LocalInstantMessengerFile}
 		 */
 		public Object getInstance() {
-			LocalInstantMessengerFile instantMessenger = new LocalInstantMessengerFile();
+			LocalInstantMessengerFile instantMessenger = LocalInstantMessengerFile.INSTANCE;
 			return instantMessenger;
 		}
 	},
@@ -33,7 +33,7 @@ public enum CcpLocalInstances implements CcpInstanceProvider<Object>{
 		 * @return a new {@code LocalBucket}
 		 */
 		public Object getInstance() {
-			LocalBucket localBucket = new LocalBucket();
+			LocalBucket localBucket = LocalBucket.INSTANCE;
 			return localBucket;
 		}
 	}, 
@@ -44,7 +44,7 @@ public enum CcpLocalInstances implements CcpInstanceProvider<Object>{
 		 * @return a new {@code SyncMensageriaListener}
 		 */
 		public Object getInstance() {
-			SyncMensageriaListener localMensageriaSender = new SyncMensageriaListener();
+			SyncMensageriaListener localMensageriaSender = SyncMensageriaListener.INSTANCE;
 			return localMensageriaSender;
 		}
 	},
@@ -55,7 +55,7 @@ public enum CcpLocalInstances implements CcpInstanceProvider<Object>{
 		 * @return a new {@code AsyncMensageriaListener}
 		 */
 		public Object getInstance() {
-			AsyncMensageriaListener localMensageriaSender = new AsyncMensageriaListener();
+			AsyncMensageriaListener localMensageriaSender = AsyncMensageriaListener.INSTANCE;
 			return localMensageriaSender;
 		}
 	},

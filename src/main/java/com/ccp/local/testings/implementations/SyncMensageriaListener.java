@@ -11,9 +11,11 @@ import com.ccp.especifications.mensageria.sender.CcpMensageriaSender;
  * Pub/Sub, it runs the topic's process directly and synchronously via {@code CcpMensageriaReceiver}.
  */
 class SyncMensageriaListener implements CcpMensageriaSender {
+	/** The single instance: the class keeps no state. */
+	public final static SyncMensageriaListener INSTANCE = new SyncMensageriaListener();
 
 	/** Builds the listener. */
-	public SyncMensageriaListener() {}
+	private SyncMensageriaListener() {}
 
 	/**
 	 * Runs, for each message and in the calling thread, the process of the topic through the receiver named in the message.
