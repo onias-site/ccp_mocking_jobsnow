@@ -1,18 +1,22 @@
 package com.ccp.local.testings.implementations;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ccp.constants.CcpOtherConstants;
 import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.decorators.CcpStringDecorator;
 import com.ccp.decorators.CcpJsonFieldName;
-import com.ccp.especifications.email.CcpEmailSender;
+import com.ccp.especifications.email.CcpEmailProvider;
+import com.ccp.especifications.email.CcpEmailSuppressionList;
 import com.ccp.especifications.http.CcpHttpContentType;
 import com.ccp.decorators.CcpFileDecorator;
 
 /**
- * {@code CcpEmailSender} mock for local tests. Instead of sending the e-mail, it writes the
+ * {@code CcpEmailProvider} mock for local tests. Instead of sending the e-mail, it writes the
  * content to {@code c:\logs\email\<templateId>.html}.
  */
-class LocalEmailFile implements CcpEmailSender {
+class LocalEmailFile implements CcpEmailProvider {
 	/** The single instance: the class keeps no state. */
 	public final static LocalEmailFile INSTANCE = new LocalEmailFile();
 
@@ -47,6 +51,29 @@ class LocalEmailFile implements CcpEmailSender {
 			this.write("c:\\logs\\email\\" + email + "\\" + emailFileName, message);
 		}
 		return CcpOtherConstants.EMPTY_JSON;
+	}
+
+	/**
+	 * Nothing is delivered in the local environment, so nothing is ever suppressed.
+	 * @param providerToken ignored
+	 * @param providerUrl ignored
+	 * @param suppressionList ignored
+	 * @return an empty list
+	 */
+	public List<CcpJsonRepresentation> getSuppressedEmails(String providerToken, String providerUrl, CcpEmailSuppressionList suppressionList) {
+		return new ArrayList<>();
+	}
+
+	/**
+	 * Nothing is delivered in the local environment, so nothing is ever suppressed.
+	 * @param providerToken ignored
+	 * @param providerUrl ignored
+	 * @param suppressionList ignored
+	 * @param startTimeInSeconds ignored
+	 * @return an empty list
+	 */
+	public List<CcpJsonRepresentation> getSuppressedEmailsCreatedSince(String providerToken, String providerUrl, CcpEmailSuppressionList suppressionList, long startTimeInSeconds) {
+		return new ArrayList<>();
 	}
 
 	/**
