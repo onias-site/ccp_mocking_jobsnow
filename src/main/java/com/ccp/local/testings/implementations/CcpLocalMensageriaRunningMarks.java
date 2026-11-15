@@ -10,7 +10,7 @@ import com.ccp.decorators.CcpStringDecorator;
 
 /**
  * The messages of the local asynchronous messaging still running, shared by the local processes: the REST APIs run
- * with {@code AsyncMensageriaListener} and answer before their writes end, and a test in another process waits for
+ * with {@code PubSubPushEmulator} and answer before their writes end, and a test in another process waits for
  * them. Each message leaves a mark, one file named by the time it was published, in a folder every local process sees;
  * the mark is left before the publisher goes on (so a task started by another one is marked before the first one
  * ends) and removed when the task ends, with or without success.

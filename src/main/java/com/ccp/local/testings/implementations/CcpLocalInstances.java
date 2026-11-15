@@ -48,14 +48,14 @@ public enum CcpLocalInstances implements CcpInstanceProvider<Object>{
 			return localMensageriaSender;
 		}
 	},
-	/** Messaging that runs each process in its own thread ({@code AsyncMensageriaListener}). */
-	asyncMensageriaListener {
+	/** Messaging of the local REST APIs that emulates a Pub/Sub push to the local push consumer ({@code PubSubPushEmulator}). */
+	pubSubPushEmulator {
 		/**
-		 * Builds the asynchronous messaging.
-		 * @return a new {@code AsyncMensageriaListener}
+		 * Builds the emulation of the Pub/Sub push.
+		 * @return the {@code PubSubPushEmulator}
 		 */
 		public Object getInstance() {
-			AsyncMensageriaListener localMensageriaSender = AsyncMensageriaListener.INSTANCE;
+			PubSubPushEmulator localMensageriaSender = PubSubPushEmulator.INSTANCE;
 			return localMensageriaSender;
 		}
 	},
